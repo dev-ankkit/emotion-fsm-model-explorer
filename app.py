@@ -32,6 +32,7 @@ class ConfusedWeights:
     familiarity_weight: float = 0.2
     cognitive_ability_weight: float = 0.1
     interface_complexity_weight: float = 0.2
+    openness_weight: float = 0.2
 
 @dataclass
 class InControlWeights:
@@ -64,6 +65,7 @@ def calculate_confused_intensity(profile: EmotionProfile, context: EmotionContex
     intensity += profile.ocean_neuroticism * weights.neuroticism_weight
     intensity += (1.0 - profile.product_familiarity) * weights.familiarity_weight
     intensity -= profile.cognitive_ability * weights.cognitive_ability_weight
+    intensity -= profile.ocean_openness * weights.openness_weight
 
     # Extrinsic
     intensity += context.interface_complexity * weights.interface_complexity_weight
@@ -120,6 +122,7 @@ with st.sidebar.expander("Confused State Weights"):
     w_c_fam = st.slider("Familiarity Weight", 0.0, 2.0, 0.2, key="w_c_fam")
     w_c_cog = st.slider("Cognitive Ability Weight", 0.0, 2.0, 0.1, key="w_c_cog")
     w_c_complex = st.slider("Interface Complexity Weight", 0.0, 2.0, 0.2, key="w_c_comp")
+    w_c_open = st.slider("Openness Weight", 0.0, 2.0, 0.2, key="w_c_open")
 
 with st.sidebar.expander("InControl State Weights"):
     w_ic_base = st.slider("Base Intensity", 0.0, 1.0, 0.5, key="w_ic_base")
@@ -152,7 +155,8 @@ weights = EmotionModelWeights(
         neuroticism_weight=w_c_neuro,
         familiarity_weight=w_c_fam,
         cognitive_ability_weight=w_c_cog,
-        interface_complexity_weight=w_c_complex
+        interface_complexity_weight=w_c_complex,
+        openness_weight=w_c_open
     ),
     in_control=InControlWeights(
         base_intensity=w_ic_base,
