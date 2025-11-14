@@ -3,7 +3,6 @@ import pandas as pd
 from dataclasses import dataclass, field, asdict
 import logging
 import plotly.graph_objects as go
-​
 # Suppress Streamlit's internal warnings
 logging.getLogger("streamlit").setLevel(logging.ERROR)
 ​
